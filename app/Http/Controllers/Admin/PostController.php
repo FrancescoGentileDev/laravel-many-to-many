@@ -4,7 +4,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Post;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 class PostController extends Controller
 {
     /**
@@ -75,7 +75,19 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         //
-        $data = $request->all();
+       $request->validate([
+           'title' => 'required|max:255',
+           'content' => 'required',
+           'image' => 'nullable|image'
+       ]);
+       $data = $request->all();
+       $slug = Str::slug($data['title'], '-');
+
+       if($data['title']!= $post->title) {
+        $slug = $this->getSlug($data['title']);
+       }
+
+        $data['slug'] = $slug;
         $post->update($data);
         return redirect()->route('admin.posts.show', $post->slug);
     }
@@ -91,5 +103,18 @@ class PostController extends Controller
         //
         $post->delete();
         return redirect()->route('admin.posts.index');
+    }
+
+    private function getSlug($title) {
+        $slug = Str::slug($title, '-');
+        $slugBase = $slug;
+        $postWithSlug = Post::where('slug', $slug)->first();
+        $counter = 1;
+        while($postWithSlug) {
+            $slug = $slugBase . '-' . $counter;
+            $counter++;
+            $postWithSlug = Post::where('slug', $slug)->first();
+        }
+        return $slug;
     }
 }
