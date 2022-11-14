@@ -14,14 +14,6 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-Route::get('/', function () {
-    //
-})->name('index');
-
 Auth::routes();
 
 Route::middleware('auth')->
