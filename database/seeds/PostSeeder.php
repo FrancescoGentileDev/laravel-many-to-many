@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 use App\Post;
 
 class PostSeeder extends Seeder
@@ -19,6 +20,13 @@ class PostSeeder extends Seeder
             $el = new Post();
             $el->title = $faker->sentence();
             $el->content= $faker->text();
+            $el->image = $faker->imageUrl(640, 480, 'animals', true);
+
+            $el->slug = Str::slug($el->title, '-');
+
+
+
+
             $el->save();
         }
     }
