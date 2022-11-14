@@ -39,8 +39,16 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'title' => 'required|max:255',
+            'content' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
         $data = $request->all();
         $data['slug'] = $this->getSlug($data['title']);
+        if(!empty($data['image'])) {
+            $data['image'] = asset('images/' . $this->uploadImage($data['image'])) ;
+        }
         $newPost = new Post();
         $newPost->fill($data);
         $newPost->save();
@@ -94,6 +102,9 @@ class PostController extends Controller
        if($data['title']!= $post->title) {
         $slug = $this->getSlug($data['title']);
        }
+       if(!empty($data['image'])) {
+        $data['image'] = asset('images/' . $this->uploadImage($data['image'])) ;
+    }
 
         $data['slug'] = $slug;
         $post->update($data);
@@ -124,5 +135,10 @@ class PostController extends Controller
             $postWithSlug = Post::where('slug', $slug)->first();
         }
         return $slug;
+    }
+    private function uploadImage($image) {
+        $imageName = time() . '.' . $image->extension();
+        $image->move(public_path('images'), $imageName);
+        return $imageName;
     }
 }

@@ -2,7 +2,8 @@
 
 @section('content')
 <h1>CREATE NEW POST</h1>
-<form action="{{ route('admin.posts.store') }}" method="POST">
+
+<form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('POST')
 
@@ -26,7 +27,7 @@
 
     <div class="form-group">
         <label for="image">Image</label>
-        <input disabled type="file" name="image" id="image" class="form-control-file">
+        <input type="file" name="image" id="image" class="form-control-file">
         @error('image')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
