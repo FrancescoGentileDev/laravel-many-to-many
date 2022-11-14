@@ -27,6 +27,7 @@ class PostController extends Controller
     public function create()
     {
         //
+        return view('admin.posts.create');
     }
 
     /**
@@ -38,6 +39,13 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->all();
+        $data['slug'] = $this->getSlug($data['title']);
+        $newPost = new Post();
+        $newPost->fill($data);
+        $newPost->save();
+        return redirect()->route('admin.posts.show', $newPost->slug);
+
     }
 
     /**
