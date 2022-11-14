@@ -14,9 +14,13 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
 Route::get('/', function () {
-    return view('welcome');
-});
+    //
+})->name('index');
 Auth::routes();
 
 Route::middleware('auth')->
@@ -24,6 +28,6 @@ namespace('Admin')->
 name('admin.')->
 prefix('admin')->
 group(function () {
-    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/', 'HomeController@index')->name('index');
 
 });
