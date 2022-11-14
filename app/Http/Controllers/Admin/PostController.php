@@ -62,6 +62,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         //
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -74,6 +75,9 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         //
+        $data = $request->all();
+        $post->update($data);
+        return redirect()->route('admin.posts.show', $post->slug);
     }
 
     /**
@@ -85,5 +89,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+        $post->delete();
+        return redirect()->route('admin.posts.index');
     }
 }
