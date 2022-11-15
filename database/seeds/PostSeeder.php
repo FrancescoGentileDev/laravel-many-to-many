@@ -21,7 +21,7 @@ class PostSeeder extends Seeder
             $el->title = $faker->sentence();
             $el->content= $faker->text();
             $el->image = $faker->imageUrl(640, 480, 'animals', true);
-
+            $el->category_id = $faker->numberBetween(1,14);
             $el->slug = Str::slug($el->title, '-');
 
 
