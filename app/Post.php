@@ -14,4 +14,8 @@ class Post extends Model
         'image'
     ];
 
+    public function category() {
+        return $this->belongsTo('App\Category');
+    }
+
 }
