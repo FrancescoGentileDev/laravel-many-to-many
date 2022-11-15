@@ -2,7 +2,6 @@
 
 @section('content')
 <h1>CREATE NEW POST</h1>
-
 <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('POST')
@@ -25,7 +24,7 @@
         @enderror
     </div>
 
-    <div class="form-group">
+    <div class="form-group col-2">
         <label for="category_id">Category</label>
         <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror">
             <option value="">Select a category</option>
