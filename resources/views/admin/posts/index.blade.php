@@ -26,7 +26,7 @@
                     <tbody>
                         @foreach ($posts as $post)
                             <tr>
-                                <td>{{ $post->category->name }}</td>
+                                <td>@if($post->category) {{ $post->category->name }} @endif</td>
                                 <td>{{ $post->title }}</td>
                                 <td><a class="btn btn-primary" href="{{ route('admin.posts.show', ['post' => $post->slug]) }}">View</a></td>
                                 <td><a class="btn btn-warning" href="{{ route('admin.posts.edit', ['post' => $post->id]) }}">Edit</a></td>

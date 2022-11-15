@@ -20,9 +20,11 @@
                          @endif
                         <div class="col-md-8">
                             <div class="card-body">
+                                @if($post->category)
                                 <h6>
                                     <span class="badge badge-primary">{{ $post->category->name }}</span>
                                 </h6>
+                                @endif
                                 <h5 class="card-title">
                                     {{ $post->title }}
                                 </h5>
