@@ -101,7 +101,8 @@ class PostController extends Controller
        $request->validate([
            'title' => 'required|max:255',
            'content' => 'required',
-           'image' => 'nullable|image'
+           'image' => 'nullable|image',
+           'category_id'=> 'nullable|exists:categories,id'
        ]);
        $data = $request->all();
        $slug = Str::slug($data['title'], '-');

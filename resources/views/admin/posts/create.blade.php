@@ -26,6 +26,22 @@
     </div>
 
     <div class="form-group">
+        <label for="category_id">Category</label>
+        <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror">
+            <option value="">Select a category</option>
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}">
+                    {{ $category->name }}
+                </option>
+            @endforeach
+        </select>
+        @error('category_id')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+    </div>
+
+
+    <div class="form-group">
         <label for="image">Image</label>
         <input type="file" name="image" id="image" class="form-control-file">
         @error('image')
