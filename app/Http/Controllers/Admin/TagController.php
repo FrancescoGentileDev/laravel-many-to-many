@@ -57,9 +57,11 @@ class TagController extends Controller
      * @param  \App\Tag  $tag
      * @return \Illuminate\Http\Response
      */
-    public function show(Tag $tag)
+    public function show($slug)
     {
         //
+        $tag = Tag::where('slug', $slug)->first();
+        return view('admin.tags.show', compact('tag'));
     }
 
     /**
