@@ -1,5 +1,4 @@
 @extends('layouts.dashboard')
-
 @section('content')
     <div class="container">
         <div class="row">
@@ -30,6 +29,12 @@
                                 </h5>
                                 <p class="card-text">{{ $post->content }}</p>
                                 <p class="card-text"><small class="text-muted">Post uploaded: {{ $post->updated_at }}</small></p>
+
+                                    @forelse ($post->tags as $tag)
+                                        <span class="badge badge-danger">{{ $tag->name }}</span>
+                                    @empty
+                                        <span class="badge badge-primary">No tags</span>
+                                    @endforelse
                             </div>
                         </div>
                     </div>
