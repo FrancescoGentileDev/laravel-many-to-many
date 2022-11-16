@@ -61,7 +61,11 @@ class TagController extends Controller
     {
         //
         $tag = Tag::where('slug', $slug)->first();
+        if($tag) {
         return view('admin.tags.show', compact('tag'));
+    }
+
+        return redirect()->route('admin.tags.index');
     }
 
     /**

@@ -70,7 +70,7 @@ class CategoryController extends Controller
         if($category) {
             return view('admin.categories.show', compact('category'));
         }
-        abort(404);
+        return redirect()->route('admin.categories.index');
     }
 
     /**
