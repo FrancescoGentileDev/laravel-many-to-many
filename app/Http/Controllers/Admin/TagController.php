@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\admin;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 use App\Tag;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,8 @@ class TagController extends Controller
     public function index()
     {
         //
+        $tags = Tag::all();
+        return view('admin.tags.index', compact('tags'));
     }
 
     /**
@@ -36,6 +39,16 @@ class TagController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'name' => 'required|max:255'
+        ]);
+        $data = $request->all();
+        $data['slug'] = Str::slug($data['name'], '-');
+        $newTag = new Tag();
+        $newTag->fill($data);
+        $newTag->save();
+        return redirect()->route('admin.tags.index');
+
     }
 
     /**
