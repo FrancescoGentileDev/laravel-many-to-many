@@ -110,7 +110,8 @@ class PostController extends Controller
            'title' => 'required|max:255',
            'content' => 'required',
            'image' => 'nullable|image',
-           'category_id'=> 'nullable|exists:categories,id'
+           'category_id'=> 'nullable|exists:categories,id',
+           'tags' => 'exists:tags,id'
        ]);
        $data = $request->all();
        $slug = Str::slug($data['title'], '-');
@@ -124,6 +125,9 @@ class PostController extends Controller
 
         $data['slug'] = $slug;
         $post->update($data);
+        if(!empty($data['tags'])) {
+            $post->tags()->sync($data['tags']);
+        }
         return redirect()->route('admin.posts.show', $post->slug);
     }
 
