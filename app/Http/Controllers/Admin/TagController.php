@@ -40,7 +40,7 @@ class TagController extends Controller
     {
         //
         $request->validate([
-            'name' => 'required|max:255'
+            'name' => 'required|max:255|unique:tags,name',
         ]);
         $data = $request->all();
         $data['slug'] = Str::slug($data['name'], '-');
