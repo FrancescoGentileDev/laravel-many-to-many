@@ -39,6 +39,19 @@
         @enderror
     </div>
 
+    <div class="form-group">
+        <label for="tags">Tags (hint: ctrl + click for multiple selection)</label>
+        <select name="tags[]" id="tags" class="form-control @error('tags') is-invalid @enderror" multiple>
+            @foreach ($tags as $tag)
+                <option value="{{ $tag->id }}">
+                    {{ $tag->name }}
+                </option>
+            @endforeach
+        </select>
+        @error('tags')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+    </div>
 
     <div class="form-group">
         <label for="image">Image</label>
