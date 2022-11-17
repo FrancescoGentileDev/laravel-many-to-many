@@ -21,7 +21,7 @@
                             <div class="card-body">
                                 @if($post->category)
                                 <h6>
-                                    <span class="badge badge-primary">{{ $post->category->name }}</span>
+                                    <a href="{{ route('admin.categories.show', $post->category->slug)}}" class="badge badge-primary">{{ $post->category->name }}</a>
                                 </h6>
                                 @endif
                                 <h5 class="card-title">
@@ -31,7 +31,7 @@
                                 <p class="card-text"><small class="text-muted">Post uploaded: {{ $post->updated_at }}</small></p>
 
                                     @forelse ($post->tags as $tag)
-                                        <span class="badge badge-danger">{{ $tag->name }}</span>
+                                        <a href="{{ route('admin.tags.show', $tag->slug) }}" class="badge badge-danger">{{ $tag->name }}</a>
                                     @empty
                                         <span class="badge badge-primary">No tags</span>
                                     @endforelse
