@@ -35,6 +35,10 @@ class CategoryController extends Controller
                             'route' => 'admin.categories.show',
                             'label' => 'View',
                         ],
+                        'edit' => [
+                            'route' => 'admin.categories.edit',
+                            'label' => 'Edit',
+                        ],
                         'delete' => [
                             'route' => 'admin.categories.destroy',
                             'label' => 'Delete',
@@ -106,10 +110,29 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
         //
-        return redirect()->route('admin.categories.index');
+        $data = [
+            'title' => 'Edit category',
+            'subtitle' => 'Edit category',
+            'elem' => $category,
+            'form' => [
+                'route' => route('admin.categories.update', $category->id),
+                'method' => 'PUT',
+                'fields' => [
+                    'name' => [
+                        'type' => 'text',
+                        'label' => 'name',
+                        'value' => $category->name,
+                    ],
+                ],
+                'submit' => [
+                    'label' => 'Edit category',
+                ],
+            ],
+        ];
+        return view('layouts.edit', compact('data'));
     }
 
     /**
@@ -119,8 +142,17 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
+        //
+        $request->validate([
+            'name' => 'required|max:255|unique:categories,name,',
+        ]);
+        $data = $request->all();
+        $data['slug'] = Str::slug($data['name'], '-');
+        $category->update($data);
+        return redirect()->route('admin.categories.index');
+
     }
 
     /**

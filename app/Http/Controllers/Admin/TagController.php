@@ -36,6 +36,10 @@ class TagController extends Controller
                             'route' => 'admin.tags.show',
                             'label' => 'View',
                         ],
+                        'edit' => [
+                            'route' => 'admin.tags.edit',
+                            'label' => 'Edit',
+                        ],
                         'delete' => [
                             'route' => 'admin.tags.destroy',
                             'label' => 'Delete',
@@ -104,6 +108,26 @@ class TagController extends Controller
     public function edit(Tag $tag)
     {
         //
+        $data = [
+            'title' => 'Edit tag',
+            'subtitle' => 'Edit tag',
+            'elem' => $tag,
+            'form' => [
+                'route' => route('admin.tags.update', $tag->id),
+                'method' => 'PUT',
+                'fields' => [
+                    'name' => [
+                        'type' => 'text',
+                        'label' => 'name',
+                        'value' => $tag->name,
+                    ],
+                ],
+                'submit' => [
+                    'label' => 'Edit tag',
+                ],
+            ],
+        ];
+        return view('layouts.edit', compact('data'));
     }
 
     /**
@@ -116,6 +140,14 @@ class TagController extends Controller
     public function update(Request $request, Tag $tag)
     {
         //
+        $request->validate([
+            'name' => 'required|max:255|unique:tags,name,',
+        ]);
+        $data = $request->all();
+        $data['slug'] = Str::slug($data['name'], '-');
+        $tag->update($data);
+        return redirect()->route('admin.tags.index');
+
     }
 
     /**

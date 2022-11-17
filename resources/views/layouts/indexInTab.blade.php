@@ -38,6 +38,7 @@
                                 <td><a class="btn btn-primary"
                                         href="{{ route($data['table']['body']['actions']['show']['route'], $el->slug) }}">View</a>
                                 </td>
+                                <td><a class="btn btn-warning" href="{{ route($data['table']['body']['actions']['edit']['route'], $el->id) }}">Edit</a>
                                 <td>
                                     <form action="{{ route($data['table']['body']['actions']['delete']['route'], $el->id) }}"
                                         method="POST">
