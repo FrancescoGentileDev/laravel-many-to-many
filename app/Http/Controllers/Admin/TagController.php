@@ -92,7 +92,7 @@ class TagController extends Controller
     {
         $tag = Tag::where('slug', $slug)->first();
         $data = [
-            'title' => 'TAG: ' . $tag->name,
+            'title' => 'tag: ' . $tag->name,
             'subtitle' => 'List of ' . $tag->name . ' posts',
             'elem' => $tag->posts,
             'table' => [
