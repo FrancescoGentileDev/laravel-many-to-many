@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\admin;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use App\Tag;
@@ -17,7 +18,7 @@ class TagController extends Controller
     {
         //
         $data = [
-            'title' => 'tags',
+            'title' => 'Tags',
             'subtitle' => 'List of tags',
             'elem' => Tag::all(),
             'create' => [
@@ -79,7 +80,6 @@ class TagController extends Controller
         $newTag->fill($data);
         $newTag->save();
         return redirect()->route('admin.tags.index');
-
     }
 
     /**
@@ -90,11 +90,39 @@ class TagController extends Controller
      */
     public function show($slug)
     {
-        //
         $tag = Tag::where('slug', $slug)->first();
-        if($tag) {
-        return view('admin.tags.show', compact('tag'));
-    }
+        $data = [
+            'title' => 'TAG: ' . $tag->name,
+            'subtitle' => 'List of ' . $tag->name . ' posts',
+            'elem' => $tag->posts,
+            'table' => [
+                'head' => [
+                    'Category',
+                    'title',
+                    'Actions',
+                ],
+                'body' => [
+                    'name' => 'category',
+                    'actions' => [
+                        'show' => [
+                            'route' => 'admin.posts.show',
+                            'label' => 'View',
+                        ],
+                        'edit' => [
+                            'route' => 'admin.posts.edit',
+                            'label' => 'Edit',
+                        ],
+                        'delete' => [
+                            'route' => 'admin.posts.destroy',
+                            'label' => 'Delete',
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        if ($tag) {
+            return view('layouts.indexInTab', compact('data'));
+        }
 
         return redirect()->route('admin.tags.index');
     }
@@ -147,7 +175,6 @@ class TagController extends Controller
         $data['slug'] = Str::slug($data['name'], '-');
         $tag->update($data);
         return redirect()->route('admin.tags.index');
-
     }
 
     /**

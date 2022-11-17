@@ -98,10 +98,40 @@ class CategoryController extends Controller
     {
         //
         $category = Category::where('slug', $slug)->first();
-        if($category) {
-            return view('admin.categories.show', compact('category'));
+        $data = [
+            'title' => 'category: ' . $category->name,
+            'subtitle' => 'List of ' . $category->name . ' posts',
+            'elem' => $category->posts,
+            'table' => [
+                'head' => [
+                    'Category',
+                    'title',
+                    'Actions',
+                ],
+                'body' => [
+                    'name' => 'category',
+                    'actions' => [
+                        'show' => [
+                            'route' => 'admin.posts.show',
+                            'label' => 'View',
+                        ],
+                        'edit' => [
+                            'route' => 'admin.posts.edit',
+                            'label' => 'Edit',
+                        ],
+                        'delete' => [
+                            'route' => 'admin.posts.destroy',
+                            'label' => 'Delete',
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        if ($category) {
+            return view('layouts.indexInTab', compact('data'));
         }
-        return redirect()->route('admin.categories.index');
+
+        return redirect()->route('admin.tags.index');
     }
 
     /**
