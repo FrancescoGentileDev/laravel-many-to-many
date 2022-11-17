@@ -16,8 +16,35 @@ class TagController extends Controller
     public function index()
     {
         //
-        $tags = Tag::all();
-        return view('admin.tags.index', compact('tags'));
+        $data = [
+            'title' => 'tags',
+            'subtitle' => 'List of tags',
+            'elem' => Tag::all(),
+            'create' => [
+                'route' => route('admin.tags.store'),
+                'label' => 'Create new tag',
+            ],
+            'table' => [
+                'head' => [
+                    'Name',
+                    'Actions',
+                ],
+                'body' => [
+                    'name' => 'name',
+                    'actions' => [
+                        'show' => [
+                            'route' => 'admin.tags.show',
+                            'label' => 'View',
+                        ],
+                        'delete' => [
+                            'route' => 'admin.tags.destroy',
+                            'label' => 'Delete',
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        return view('layouts.indexInTab', compact('data'));
     }
 
     /**

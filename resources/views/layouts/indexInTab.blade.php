@@ -4,16 +4,15 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h1>Tags</h1>
+                <h1>@yield('title')</h1>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
-                <form action="{{ route('admin.tags.store') }}" method="POST" class="row">
+                <form action="{{ $data['create']['route'] }}" method="POST" class="row">
                     @csrf
-                    @method('POST')
-                    <label for="category">Inserisci nome nuovo tag</label>
-                    <input type="text" name="name" id="tagsInput"
+                    <label for="category">{{ $data['create']['label'] }}</label>
+                    <input type="text" name="name" id="categoryInput"
                         class="form-control @error('name') is-invalid @enderror">
                     @error('name')
                         <div class="alert alert-danger">{{ $message }}</div>
@@ -27,19 +26,20 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th colspan="3">Actions</th>
+                            @foreach ($data['table']['head'] as $item)
+                                <th colspan="1">{{ $item }}</th>
+                            @endforeach
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($tags as $tag)
+                        @foreach ($data['elem'] as $el)
                             <tr>
-                                <td>{{ $tag->name }}</td>
+                                <td>{{ $el->name }}</td>
                                 <td><a class="btn btn-primary"
-                                        href="{{ route('admin.tags.show', ['tag' => $tag->slug]) }}">View</a>
+                                        href="{{ route($data['table']['body']['actions']['show']['route'], $el->slug) }}">View</a>
                                 </td>
                                 <td>
-                                    <form action="{{ route('admin.tags.destroy', ['tag' => $tag->id]) }}"
+                                    <form action="{{ route($data['table']['body']['actions']['delete']['route'], $el->id) }}"
                                         method="POST">
                                         @csrf
                                         @method('DELETE')

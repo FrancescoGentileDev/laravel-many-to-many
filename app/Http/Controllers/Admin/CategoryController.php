@@ -15,10 +15,37 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        $categories = Category::all();
-        return view('admin.categories.index', compact('categories'));
-
+        $data = [
+            'title' => 'Categories',
+            'subtitle' => 'List of categories',
+            'elem' => Category::all(),
+            'create' => [
+                'route' => route('admin.categories.store'),
+                'label' => 'Create new category',
+            ],
+            'table' => [
+                'head' => [
+                    'Name',
+                    'Actions',
+                ],
+                'body' => [
+                    'name' => 'name',
+                    'actions' => [
+                        'show' => [
+                            'route' => 'admin.categories.show',
+                            'label' => 'View',
+                        ],
+                        'delete' => [
+                            'route' => 'admin.categories.destroy',
+                            'label' => 'Delete',
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        return view('layouts.indexInTab', compact('data'));
     }
+
 
     /**
      * Show the form for creating a new resource.
