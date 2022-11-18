@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\admin;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use App\Post;
 use App\Tag;
@@ -49,13 +50,14 @@ class PostController extends Controller
             'title' => 'required|max:255',
             'content' => 'required',
             'category_id'=> 'nullable|exists:categories,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|max:2048',
             'tags' => 'exists:tags,id'
         ]);
         $data = $request->all();
         $data['slug'] = $this->getSlug($data['title']);
         if(!empty($data['image'])) {
-            $data['image'] = asset('images/' . $this->uploadImage($data['image'])) ;
+           $imagePath =  Storage::put('uploads', $data['image']);
+            $data['image'] = asset('storage/' . $imagePath)  ;
         }
         $newPost = new Post();
         $newPost->fill($data);
@@ -156,10 +158,5 @@ class PostController extends Controller
             $postWithSlug = Post::where('slug', $slug)->first();
         }
         return $slug;
-    }
-    private function uploadImage($image) {
-        $imageName = time() . '.' . $image->extension();
-        $image->move(public_path('images'), $imageName);
-        return $imageName;
     }
 }

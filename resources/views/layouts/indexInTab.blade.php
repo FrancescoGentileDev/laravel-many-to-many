@@ -65,7 +65,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="text-center mt-5"><h1>😢 No post for this {{ $data['title'] }} 😢</h1></td>
+                                <td colspan="3" class="text-center mt-5"><h1>😢 No posts for this {{ $data['title'] }} 😢</h1></td>
                             </tr>
                         @endforelse
                     </tbody>
